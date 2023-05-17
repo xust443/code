@@ -1,0 +1,31 @@
+class Solution {
+public:
+    string replaceSpace(string s) {
+        int count=0;
+        int oldsize=s.size();
+        for(auto ch:s)
+        {
+            if(ch==' ')
+            {
+                count++;
+            }
+        }
+        s.resize(s.size()+count*2);//扩充空间
+        int newsize=s.size();
+        for(int i=newsize-1,j=oldsize-1;j>=0;j--)
+        {
+            if(s[j]==' ')
+            {
+                s[i]='0';
+                s[i-1]='2';
+                s[i-2]='%';
+                i=i-3;
+            }
+            else{
+                s[i]=s[j];
+                i--;
+            }
+        }
+        return s;
+    }
+};
