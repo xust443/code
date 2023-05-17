@@ -1,0 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* sufficientSubset(TreeNode* root, int limit) 
+    {
+        return helper(root, limit);
+    }
+
+private:
+    TreeNode * helper(TreeNode* node, int limit,int cur=0)
+    {
+        if(node==nullptr)
+        {
+            return nullptr;
+        }
+        cur=cur+node->val;
+        if(node->left==nullptr && node->right==nullptr)
+        {//到达叶子节点
+            if(cur<limit)
+            {//找到不足节点
+                delete node;
+                return nullptr;
+            }
+            return node;//是叶子节点但不需要删除
+        }
+        //开始深度遍历
+        node->left=helper(node->left,limit,cur);
+        node->right=helper(node->right,limit,cur);
+        if(node->left==nullptr && node->right==nullptr)
+        {//在遍历完之后，如果某个父节点的左右孩子都被删除
+            return nullptr;
+        }
+        return node;
+    }
+};
